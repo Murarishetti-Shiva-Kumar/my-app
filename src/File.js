@@ -6,6 +6,7 @@ class File extends Component {
   state = {
     // Initially, no file is selected
     selectedFile: null,
+    returnedImage: null,
   };
 
   // On file select (from the pop up)
@@ -16,6 +17,7 @@ class File extends Component {
 
   // On file upload (click the upload button)
   onFileUpload = () => {
+    var self = this; // this line is IMPORTANT as you specified which scope you need to focus on
     // Create an object of formData
     const formData = new FormData();
 
@@ -32,9 +34,13 @@ class File extends Component {
     // Request made to the backend api
     // Send formData object
     axios
-      .post("http://4ad99993c153.ngrok.io/api/predict/utility", formData)
+      .post("http://b9d56c844307.ngrok.io/api/predict/utility", formData)
       .then(function (response) {
         console.log(response);
+        // Remember to set state Shiva: here it has self.setState instead of this.setState because it will be confused with axios's scope
+        self.setState({
+          returnedImage: response.data
+        })
       })
       .catch(function (error) {
         console.log(error);
@@ -67,6 +73,10 @@ class File extends Component {
   };
 
   render() {
+    //best practice: create a local variable first to refer to global variables and functions
+    const fileData = this.fileData();
+    const returnedImage = this.state.returnedImage; 
+    
     return (
       <div>
         <h1>Community Engagement</h1>
@@ -74,9 +84,9 @@ class File extends Component {
         <div>
           <input type="file" onChange={this.onFileChange} />
           <button onClick={this.onFileUpload}>Upload!</button>
-          {/* <img src={this.response.data} alt="Logo" />; */}
+          <img src={'data:image/jpg;base64,' + returnedImage} alt="Logo" />
         </div>
-        {this.fileData()}
+        {fileData}
       </div>
     );
   }
