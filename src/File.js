@@ -7,12 +7,22 @@ class File extends Component {
     // Initially, no file is selected
     selectedFile: null,
     returnedImage: null,
+    currentImage: null,
   };
 
   // On file select (from the pop up)
   onFileChange = (event) => {
     // Update the state
+    const reader = new FileReader();
+    const currentImage = reader.readAsDataURL(event.target.files[0]);
     this.setState({ selectedFile: event.target.files[0] });
+    reader.onloadend = function (e) {
+      this.setState({
+        currentImage: [reader.result],
+      });
+    }.bind(this);
+    // this.setState({ currentImage: [reader.result] });
+    console.log("shiba", this.currentImage);
   };
 
   // On file upload (click the upload button)
@@ -37,10 +47,11 @@ class File extends Component {
       .post("http://b9d56c844307.ngrok.io/api/predict/utility", formData)
       .then(function (response) {
         console.log(response);
+
         // Remember to set state Shiva: here it has self.setState instead of this.setState because it will be confused with axios's scope
         self.setState({
-          returnedImage: response.data
-        })
+          returnedImage: response.data,
+        });
       })
       .catch(function (error) {
         console.log(error);
@@ -66,7 +77,7 @@ class File extends Component {
       return (
         <div>
           <br />
-          <h4>Choose before Pressing the Upload button</h4>
+          <h4>Choose an Image to predict</h4>
         </div>
       );
     }
@@ -75,16 +86,53 @@ class File extends Component {
   render() {
     //best practice: create a local variable first to refer to global variables and functions
     const fileData = this.fileData();
-    const returnedImage = this.state.returnedImage; 
-    
+    const returnedImage = this.state.returnedImage;
+
     return (
-      <div>
+      <div align="center" className="bg-light" style={{ height: "900px" }}>
         <h1>Community Engagement</h1>
         <h3>File Upload for prediction</h3>
-        <div>
-          <input type="file" onChange={this.onFileChange} />
-          <button onClick={this.onFileUpload}>Upload!</button>
-          <img src={'data:image/jpg;base64,' + returnedImage} alt="Logo" />
+        <div className="row">
+          <div className="col-md-6">
+            {this.state.currentImage ? (
+              <div>
+                <h3>Image Uploaded</h3>{" "}
+                <img
+                  src={this.state.currentImage}
+                  className="img-fluid"
+                  width="320"
+                  height="320"
+                ></img>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="col-md-6">
+            {returnedImage ? (
+              <div>
+                <h3>Predictions in Uploaded Image</h3>
+                <img
+                  src={"data:image/jpg;base64," + returnedImage}
+                  className="img-fluid"
+                  alt="Predicted Image"
+                />
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="col-md-12">
+            <input
+              type="file"
+              // className="form-control-file"
+              onChange={this.onFileChange}
+            />
+
+            <button onClick={this.onFileUpload} className="btn btn-secondary">
+              Predict
+            </button>
+          </div>
         </div>
         {fileData}
       </div>
