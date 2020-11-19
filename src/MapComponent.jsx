@@ -16,8 +16,6 @@ export class MapContainer extends Component {
         location: {lat: 39.0347,
           lng: -94.5785}
       },
-      pos2: {lat: 39.0347,
-          lng: -94.5885},
     };
   }
   onMarkerClick(props, marker, e) {
