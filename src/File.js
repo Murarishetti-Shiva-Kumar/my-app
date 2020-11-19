@@ -22,7 +22,7 @@ class File extends Component {
       });
     }.bind(this);
     // this.setState({ currentImage: [reader.result] });
-    console.log("shiba", this.currentImage);
+    // console.log("shiba", this.currentImage);
   };
 
   // On file upload (click the upload button)
@@ -44,7 +44,7 @@ class File extends Component {
     // Request made to the backend api
     // Send formData object
     axios
-      .post("http://b9d56c844307.ngrok.io/api/predict/utility", formData)
+      .post("http://cab1068f55da.ngrok.io/api/predict/utility", formData)
       .then(function (response) {
         console.log(response);
 
@@ -116,6 +116,8 @@ class File extends Component {
                   src={"data:image/jpg;base64," + returnedImage}
                   className="img-fluid"
                   alt="Predicted Image"
+                  width="320"
+                  height="320"
                 />
               </div>
             ) : (
