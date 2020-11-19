@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Sara from "./File.js";
-
+import FilePage from "./File.js";
+import MapContainer from "./MapComponent";
 function App() {
   return (
     // <div className="App">
@@ -20,7 +20,13 @@ function App() {
     //     </a>
     //   </header>
     // </div>
-    <Sara />
+    <div>
+    {/* <FilePage/> */}
+    
+    <MapContainer/>
+    </div>
+
+
   );
 }
 

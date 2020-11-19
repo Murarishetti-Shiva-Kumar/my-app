@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import React, { Component } from "react";
+import MapContainer from "./MapComponent";
 
 class File extends Component {
   state = {
@@ -137,6 +138,8 @@ class File extends Component {
           </div>
         </div>
         {fileData}
+        {/* <MapContainer></MapContainer> */}
+      
       </div>
     );
   }
