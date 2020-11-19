@@ -99,11 +99,6 @@ export class MapContainer extends Component {
           />
           <Marker
             onClick={this.onMarkerClick}
-            // icon={{
-            //   url: "C:/Users/hoang/Documents/GitHub/my-app/public/logo192.png",
-            //   anchor: new google.maps.Point(32, 32),
-            //   scaledSize: new google.maps.Size(64, 64)
-            // }}
             position={this.state.fields.location}
             name={"Stop Location"}
           />
@@ -113,7 +108,7 @@ export class MapContainer extends Component {
           >
             <div>
               <h1>{this.state.selectedPlace.name}</h1>
-              {/* <h2>{this.state.selectedPlace.position}</h2> */}
+              <h2>{'Hello'}</h2>
             </div>
           </InfoWindow>
         </Map>
