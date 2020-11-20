@@ -4,6 +4,7 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from "google-maps-
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
+    this.polygonRef = React.createRef();
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClicked = this.onMapClicked.bind(this);
     this.addMarker = this.addMarker.bind(this);
@@ -85,22 +86,27 @@ export class MapContainer extends Component {
 
     this.setState(prev => ({
       fields: {
-        start_location: {lat: 39.0447,
+        start_location: {lat: 39.0347,
           lng: -94.5785},
         location:{lat: location.lat(), lng: location.lng()}
       },
-      // rectangle_coords: [
-      //   start_location,
-      //   {lat: start_location.lat, lng: location.lng()},
-      //   {lat: location.lat(), lng: start_location.lng},
-      //   {lat: location.lat(), lng: location.lng()}
-      // ]
       rectangle_coords: [
+        start_location,
+        {lat: start_location.lat, lng: location.lng()},
+        {lat: location.lat(), lng: location.lng()},
+
+        {lat: location.lat(), lng: start_location.lng}
       ]
+      // rectangle_coords: [
+      // ]
     }));
     map.panTo(location);
 
-    
+    this.setPolygonOptions({
+      // fillColor: "green", 
+      paths:[  
+      this.state.rectangle_coords
+    ]});
     // console.log(location)
   };
   onMapClicked(mapProps, map, clickEvent) { 
@@ -118,7 +124,7 @@ export class MapContainer extends Component {
   };
   handleClick = e =>{
     console.log('in handle click()')
-    this.setPolygonOptions({fillColor: "green"});
+    
  }
   setPolygonOptions = (options) => {
     this.polygonRef.current.polygon.setOptions(options);
