@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
+import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from "google-maps-react";
 
 export class MapContainer extends Component {
   constructor(props) {
@@ -18,6 +18,11 @@ export class MapContainer extends Component {
         location: {lat: 39.0347,
           lng: -94.5785}
       },
+      rectangle_coords: [{lat: 39.0347,lng: -94.5785},
+          {lat: 39.0347, lng:  -94.5885},
+          {lat: 39.030875, lng:  -94.5885},
+          {lat: 39.030875, lng: -94.5785},
+        ],
       infoWindowContent: (<div>
         <h1>hello</h1> </div>)
     };
@@ -76,15 +81,26 @@ export class MapContainer extends Component {
   }
   addMarker(location, map){
 
+    const start_location = this.state.fields.start_location
 
     this.setState(prev => ({
       fields: {
-        start_location: {lat: 39.0347,
+        start_location: {lat: 39.0447,
           lng: -94.5785},
         location:{lat: location.lat(), lng: location.lng()}
-      }
+      },
+      // rectangle_coords: [
+      //   start_location,
+      //   {lat: start_location.lat, lng: location.lng()},
+      //   {lat: location.lat(), lng: start_location.lng},
+      //   {lat: location.lat(), lng: location.lng()}
+      // ]
+      rectangle_coords: [
+      ]
     }));
     map.panTo(location);
+
+    
     // console.log(location)
   };
   onMapClicked(mapProps, map, clickEvent) { 
@@ -100,8 +116,22 @@ export class MapContainer extends Component {
 
 
   };
-
+  handleClick = e =>{
+    console.log('in handle click()')
+    this.setPolygonOptions({fillColor: "green"});
+ }
+  setPolygonOptions = (options) => {
+    this.polygonRef.current.polygon.setOptions(options);
+  };
   render() {
+    const start_location = this.state.fields.start_location
+    const rectangle = this.state.rectangle_coords;
+    // const rectangle = [start_location,
+    //   {lat: start_location.lat, lng:  -94.5885},
+    //   {lat: 39.030875, lng:  -94.5885},
+    //   {lat: 39.030875, lng: start_location.lng},
+    // ];
+    console.log(rectangle)
     if (!this.props.google) {
       return <div>Loading...</div>;
     }
@@ -145,6 +175,15 @@ export class MapContainer extends Component {
               <p>{this.state.fields.location.lat.toString() + this.state.fields.location.lng.toString()}</p>
             </div> */}
           </InfoWindow>
+          <Polygon
+          ref={this.polygonRef}
+          onClick={this.handleClick}
+          paths={rectangle}
+          strokeColor="#0000FF"
+          strokeOpacity={0.8}
+          strokeWeight={2}
+          fillColor="#0000FF"
+          fillOpacity={0.35} />
         </Map>
       </div>
     );
