@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
-const google = window.google = window.google ? window.google : {}
+
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClicked = this.onMapClicked.bind(this);
+    this.addMarker = this.addMarker.bind(this);
+
     this.state = {
       showingInfoWindow: false,
       activeMarker: {},
@@ -16,17 +18,44 @@ export class MapContainer extends Component {
         location: {lat: 39.0347,
           lng: -94.5785}
       },
-      pos2: {lat: 39.0347,
-          lng: -94.5885},
+      infoWindowContent: (<div>
+        <h1>hello</h1> </div>)
     };
   }
+
   onMarkerClick(props, marker, e) {
+    var self = this
+    console.log(this.state.fields.start_location)
     console.log(props)
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
+    if (props.label == 1) {
+      this.setState({
+        selectedPlace: props,
+        activeMarker: marker,
+        showingInfoWindow: true,
+        infoWindowContent: (<div>
+          <h2>Start Location</h2>
+        <b>{"Coordinates: " + this.state.fields.start_location.lat.toString() + ', ' + this.state.fields.start_location.lng.toString()}</b>
+           </div>)
+      });
+    }
+    else if (props.label == 2) {
+      var lat =  props.position.lat.toFixed(4).toString()
+      var lng =  props.position.lng.toFixed(4).toString()
+
+      // var lat = props.position.lat[0]['d'].toString()
+      this.setState({
+        selectedPlace: props,
+        activeMarker: marker,
+        showingInfoWindow: true,
+        infoWindowContent: (<div>
+          <h2>Stop Location</h2>
+          <b>{"Coordinates: " + lat + ', ' + lng}</b>
+
+           </div>)
+      });
+    }
+    console.log(this.state.selectedPlace) 
+
   }
   getcurrentLocation() {
     if (navigator && navigator.geolocation) {
@@ -45,20 +74,20 @@ export class MapContainer extends Component {
       lng: 0
     };
   }
-  addMarker = (location, map) => {
+  addMarker(location, map){
+
+
     this.setState(prev => ({
       fields: {
-        location
+        start_location: {lat: 39.0347,
+          lng: -94.5785},
+        location:{lat: location.lat(), lng: location.lng()}
       }
     }));
     map.panTo(location);
-    console.log(location)
+    // console.log(location)
   };
-  onMapClicked(mapProps, map, clickEvent) {
-    // console.log(this.state)
-
-    // const new_pos = this.state.pos2
-    
+  onMapClicked(mapProps, map, clickEvent) { 
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
@@ -66,7 +95,9 @@ export class MapContainer extends Component {
        
       })
     }
+    
     this.addMarker(clickEvent.latLng, map)
+
 
   };
 
@@ -87,6 +118,7 @@ export class MapContainer extends Component {
         center={this.state.fields.location} zoom={14}
           onClick={this.onMapClicked}>
           <Marker
+            label = {'1'} 
             onClick={this.onMarkerClick}
             // icon={{
             //   url: "http://127.0.0.1:8887/logo192.png",
@@ -98,6 +130,7 @@ export class MapContainer extends Component {
             name={"Start Location"}
           />
           <Marker
+            label = {'2'}
             onClick={this.onMarkerClick}
             position={this.state.fields.location}
             name={"Stop Location"}
@@ -106,10 +139,11 @@ export class MapContainer extends Component {
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}
           >
-            <div>
+            {this.state.infoWindowContent}
+            {/* <div>
               <h1>{this.state.selectedPlace.name}</h1>
-              <h2>{'Hello'}</h2>
-            </div>
+              <p>{this.state.fields.location.lat.toString() + this.state.fields.location.lng.toString()}</p>
+            </div> */}
           </InfoWindow>
         </Map>
       </div>
