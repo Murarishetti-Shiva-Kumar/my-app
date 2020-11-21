@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from "google-maps-react";
-
+import './App.css';
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
@@ -19,10 +19,11 @@ export class MapContainer extends Component {
         location: {lat: 39.0347,
           lng: -94.5785}
       },
-      rectangle_coords: [{lat: 39.0347,lng: -94.5785},
-          {lat: 39.0347, lng:  -94.5885},
-          {lat: 39.030875, lng:  -94.5885},
-          {lat: 39.030875, lng: -94.5785},
+      rectangle_coords: [
+          // {lat: 39.0347,lng: -94.5785},
+          // {lat: 39.0347, lng:  -94.5885},
+          // {lat: 39.030875, lng:  -94.5885},
+          // {lat: 39.030875, lng: -94.5785},
         ],
       infoWindowContent: (<div>
         <h1>hello</h1> </div>)
@@ -132,16 +133,10 @@ export class MapContainer extends Component {
   render() {
     const start_location = this.state.fields.start_location
     const rectangle = this.state.rectangle_coords;
-    // const rectangle = [start_location,
-    //   {lat: start_location.lat, lng:  -94.5885},
-    //   {lat: 39.030875, lng:  -94.5885},
-    //   {lat: 39.030875, lng: start_location.lng},
-    // ];
     console.log(rectangle)
     if (!this.props.google) {
       return <div>Loading...</div>;
     }
-
     return (
       <div
         style={{
@@ -149,10 +144,17 @@ export class MapContainer extends Component {
           height: "calc(100vh - 20px)"
         }}
       >
+        <div align="center">
+        <button  onClick={this.sendLocation} className="btn btn-primary">
+          Predict
+      </button>
+        </div>
+      
         <Map style={{}} google={this.props.google} 
         initialCenter={this.state.fields.start_location}
         center={this.state.fields.location} zoom={14}
           onClick={this.onMapClicked}>
+
           <Marker
             label = {'1'} 
             onClick={this.onMarkerClick}
