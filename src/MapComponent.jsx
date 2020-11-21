@@ -16,24 +16,33 @@ export class MapContainer extends Component {
       activeMarker: {},
       selectedPlace: {},
       fields: {
-        start_location: {lat: 39.0347,
+        start_location: {
+          lat: 39.0347,
           lng: -94.5785},
-        location: {lat: 39.0347,
+        location: {
+          lat: 39.0347,
           lng: -94.5785}
       },
       rectangle_coords: [
-          // {lat: 39.0347,lng: -94.5785},
-          // {lat: 39.0347, lng:  -94.5885},
-          // {lat: 39.030875, lng:  -94.5885},
-          // {lat: 39.030875, lng: -94.5785},
-        ],
-      infoWindowContent: (<div>
-        <h1>hello</h1> </div>)
+        {lat: 39.0347,lng: -94.5785},
+        {lat: 39.0347, lng:  -94.5885},
+        {lat: 39.030875, lng:  -94.5885},
+        {lat: 39.030875, lng: -94.5785},
+      ],
+      infoWindowContent: (
+        <div>
+          <h1>hello</h1>
+        </div>
+      )
     };
   }
 
+  //Always have this function on any .jsx file, even though it's empty
+  componentDidMount() {
+    
+  }
+
   onMarkerClick(props, marker, e) {
-    var self = this
     console.log(this.state.fields.start_location)
     console.log(props)
     if (props.label == 1) {
@@ -128,7 +137,7 @@ export class MapContainer extends Component {
   handleClick = e =>{
     console.log('in handle click()')
     
- }
+  }
   setPolygonOptions = (options) => {
     this.polygonRef.current.polygon.setOptions(options);
   };
@@ -136,7 +145,7 @@ export class MapContainer extends Component {
     const start_coord = JSON.stringify(this.state.fields.start_location)
     const end_coord = JSON.stringify(this.state.fields.location)
     const formData = new FormData();
-    const self = this
+    var self = this
     // Update the formData object
     formData.append('start_coord', start_coord);
     formData.append('end_coord', end_coord);
@@ -165,21 +174,16 @@ export class MapContainer extends Component {
       return <div>Loading...</div>;
     }
     return (
-      <div
-        style={{
-          position: "relative",
-          height: "calc(100vh - 20px)"
-        }}
-      >
+      <div className="map-display">
         <div align="center">
         <button  onClick={this.sendLocation} className="btn btn-primary">Predict</button>
         </div>
       
         <Map style={{}} google={this.props.google} 
-        initialCenter={this.state.fields.start_location}
-        center={this.state.fields.location} zoom={14}
-          onClick={this.onMapClicked}>
-
+          initialCenter={this.state.fields.start_location}
+          center={this.state.fields.location} zoom={14}
+          onClick={this.onMapClicked}
+        >
           <Marker
             label = {'1'} 
             onClick={this.onMarkerClick}
@@ -209,14 +213,15 @@ export class MapContainer extends Component {
             </div> */}
           </InfoWindow>
           <Polygon
-          ref={this.polygonRef}
-          onClick={this.handleClick}
-          paths={rectangle}
-          strokeColor="#0000FF"
-          strokeOpacity={0.8}
-          strokeWeight={2}
-          fillColor="#0000FF"
-          fillOpacity={0.35} />
+            ref={this.polygonRef}
+            onClick={this.handleClick}
+            paths={rectangle}
+            strokeColor="#0000FF"
+            strokeOpacity={0.8}
+            strokeWeight={2}
+            fillColor="#0000FF"
+            fillOpacity={0.35}
+          />
         </Map>
       </div>
     );

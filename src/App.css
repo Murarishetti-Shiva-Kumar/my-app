@@ -37,3 +37,8 @@
     transform: rotate(360deg);
   }
 }
+
+.map-display {
+  position: "relative";
+  height: "calc(100vh - 20px)"
+}
