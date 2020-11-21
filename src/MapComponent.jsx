@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from "google-maps-react";
 import './App.css';
+import axios from "axios";
+
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
@@ -130,6 +132,31 @@ export class MapContainer extends Component {
   setPolygonOptions = (options) => {
     this.polygonRef.current.polygon.setOptions(options);
   };
+  sendLocation = () => {
+    const start_coord = JSON.stringify(this.state.fields.start_location)
+    const end_coord = JSON.stringify(this.state.fields.location)
+    const formData = new FormData();
+    const self = this
+    // Update the formData object
+    formData.append('start_coord', start_coord);
+    formData.append('end_coord', end_coord);
+    console.log(formData.get('start_coord'))
+
+    axios
+      .post("http://a33a6eb67577.ngrok.io/api/GSV/predict/utility", formData)
+      .then(function (response) {
+        console.log(response);
+
+        // Remember to set state Shiva: here it has self.setState instead of this.setState because it will be confused with axios's scope
+        self.setState({
+          imageList: response.data,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  
   render() {
     const start_location = this.state.fields.start_location
     const rectangle = this.state.rectangle_coords;
@@ -145,9 +172,7 @@ export class MapContainer extends Component {
         }}
       >
         <div align="center">
-        <button  onClick={this.sendLocation} className="btn btn-primary">
-          Predict
-      </button>
+        <button  onClick={this.sendLocation} className="btn btn-primary">Predict</button>
         </div>
       
         <Map style={{}} google={this.props.google} 
