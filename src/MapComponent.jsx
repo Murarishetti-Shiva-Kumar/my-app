@@ -66,7 +66,6 @@ export class MapContainer extends Component {
 
   processImageList() {
     const imageListRaw = this.state.imageListRaw;
-    console.log(imageListRaw)
     var imageList = [];
 
     imageListRaw.map((imageStr) => {
@@ -76,7 +75,6 @@ export class MapContainer extends Component {
       })
     })
 
-    console.log(imageList)
     this.setState({
       imageList: imageList,
       dataLoading: false,
@@ -84,8 +82,6 @@ export class MapContainer extends Component {
   }
 
   onMarkerClick(props, marker, e) {
-    console.log(this.state.fields.start_location)
-    console.log(props)
     if (props.label == 1) {
       this.setState({
         selectedPlace: props,
@@ -113,7 +109,6 @@ export class MapContainer extends Component {
            </div>)
       });
     }
-    console.log(this.state.selectedPlace) 
 
   }
 
@@ -155,7 +150,6 @@ export class MapContainer extends Component {
       paths:[  
       this.state.rectangle_coords
     ]});
-    // console.log(location)
   };
 
   onMapClicked(mapProps, map, clickEvent) { 
@@ -226,8 +220,6 @@ export class MapContainer extends Component {
     } else {
       predictButtonText = "Sending..."
     }
-
-    console.log(this.state.predictOption)
 
     if (!this.props.google) {
       return <div>Loading...</div>;
