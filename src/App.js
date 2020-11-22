@@ -1,6 +1,3 @@
-import logo from "./logo.svg";
-import "./App.css";
-import FilePage from "./File.js";
 import MapContainer from "./components/Map/Map";
 function App() {
   return (
