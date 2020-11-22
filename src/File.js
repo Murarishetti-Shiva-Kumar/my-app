@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import React, { Component } from "react";
-import MapContainer from "./MapComponent";
+import MapContainer from "./components/Map/Map";
 
 class File extends Component {
   state = {

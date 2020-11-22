@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ImageGallery from 'react-image-gallery';
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from "google-maps-react";
-import './App.css';
+import '../../App.js';
 import axios from "axios";
 import update from 'immutability-helper';
 
