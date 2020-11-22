@@ -38,6 +38,7 @@ export class MapContainer extends Component {
       imageListRaw: [],
       predictOption: "",
       dataLoading: false,
+      serverError: false,
     };
   }
 
@@ -196,6 +197,10 @@ export class MapContainer extends Component {
       })
       .catch(function (error) {
         console.log(error);
+        self.setState({
+          serverError: true,
+          dataLoading: false,
+        });
       });
   }
 
@@ -213,12 +218,20 @@ export class MapContainer extends Component {
     const rectangle = this.state.rectangle_coords;
     const imageList = this.state.imageList;
     const dataLoading = this.state.dataLoading;
+    const serverError = this.state.serverError;
 
     var predictButtonText = ""
     if (dataLoading == false) {
       predictButtonText = "Predict"
     } else {
       predictButtonText = "Sending..."
+    }
+
+    var helpText = ""
+    if (serverError == true) {
+      helpText = "Oops. Looks like something went wrong with the server!"
+    } else {
+      helpText = 'No predictions. Click "Predict" button on the map to start.'
     }
 
     if (!this.props.google) {
@@ -295,7 +308,7 @@ export class MapContainer extends Component {
           </div>
           ) : (
           <div className="col-md-4" align="center">
-            No predictions. Click "Predict" button on the map to start.
+            {helpText}
           </div>
           )}
         </div>
