@@ -218,7 +218,7 @@ export class MapContainer extends Component {
     else if (selectedValue == 'Road'){
       cat='road'
     }
-    else if (selectedValue == 'All'){
+    else if (selectedValue == 'All Categories'){
       cat ='all'
     }
     this.setState({
