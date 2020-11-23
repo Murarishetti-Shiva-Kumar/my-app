@@ -212,6 +212,12 @@ export class MapContainer extends Component {
     if (selectedValue == 'Utility Poles'){
       cat='utility'
     }
+    else if (selectedValue == 'Vehicle'){
+      cat='vehicle'
+    }
+    else if (selectedValue == 'Road'){
+      cat='road'
+    }
     else if (selectedValue == 'All'){
       cat ='all'
     }
