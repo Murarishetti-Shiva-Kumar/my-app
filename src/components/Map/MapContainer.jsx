@@ -37,9 +37,10 @@ export class MapContainer extends Component {
       ),
       imageList: [],
       imageListRaw: [],
-      predictOption: "",
       dataLoading: false,
       serverError: false,
+
+      category: ""
     };
   }
 
@@ -181,6 +182,7 @@ export class MapContainer extends Component {
     const start_coord = JSON.stringify(this.state.fields.start_location)
     const end_coord = JSON.stringify(this.state.fields.location)
     const formData = new FormData();
+    const category = this.state.category
     var self = this
     // Update the formData object
     formData.append('start_coord', start_coord);
@@ -188,7 +190,7 @@ export class MapContainer extends Component {
     console.log(formData.get('start_coord'))
 
     axios
-      .post("http://0e70ae32143b.ngrok.io/api/GSV/predict/all", formData)
+      .post("http://0e70ae32143b.ngrok.io/api/GSV/predict/" + category, formData)
       .then(function (response) {
         self.setState({
           imageListRaw: response.data,
@@ -206,9 +208,15 @@ export class MapContainer extends Component {
 
   handleOptionChange(e) {
     const selectedValue = e.target.value;
-
+    var cat = ''
+    if (selectedValue == 'Utility Poles'){
+      cat='utility'
+    }
+    else if (selectedValue == 'All'){
+      cat ='all'
+    }
     this.setState({
-      predictOption: selectedValue
+      category: cat
     })
   }
   
@@ -243,9 +251,12 @@ export class MapContainer extends Component {
           <button onClick={this.sendLocation} className="btn btn-primary">{predictButtonText}</button>
         </div>
         <div style={{position: "absolute", zIndex: 1, marginLeft: "30vw", marginTop: "60px"}}>
-          <select defaultValue="Option 1" onChange={this.handleOptionChange.bind(this)}>
-            <option value="Option 1">Option 1</option>
-            <option>Option 2</option>
+          <select defaultValue="Utility Poles" onChange={this.handleOptionChange.bind(this)}>
+            <option value="Utility Poles">Utility Poles</option>
+            <option value="Vehicle">Vehicle</option>
+            <option value="Road">Road</option>
+            <option value="All Categories">All Categories</option>
+
           </select>
         </div>
       
