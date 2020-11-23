@@ -85,7 +85,7 @@ export class MapContainer extends Component {
   }
 
   onMarkerClick(props, marker, e) {
-    if (props.label == 1) {
+    if (props.label === 1) {
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
@@ -96,7 +96,7 @@ export class MapContainer extends Component {
            </div>)
       });
     }
-    else if (props.label == 2) {
+    else if (props.label === 2) {
       var lat =  props.position.lat.toFixed(4).toString()
       var lng =  props.position.lng.toFixed(4).toString()
 
@@ -209,16 +209,16 @@ export class MapContainer extends Component {
   handleOptionChange(e) {
     const selectedValue = e.target.value;
     var cat = ''
-    if (selectedValue == 'Utility Poles'){
+    if (selectedValue === 'Utility Poles'){
       cat='utility'
     }
-    else if (selectedValue == 'Vehicle'){
+    else if (selectedValue === 'Vehicle'){
       cat='vehicle'
     }
-    else if (selectedValue == 'Road'){
+    else if (selectedValue === 'Road'){
       cat='road'
     }
-    else if (selectedValue == 'All'){
+    else if (selectedValue === 'All'){
       cat ='all'
     }
     this.setState({
@@ -235,14 +235,14 @@ export class MapContainer extends Component {
     const serverError = this.state.serverError;
 
     var predictButtonText = ""
-    if (dataLoading == false) {
+    if (dataLoading === false) {
       predictButtonText = "Predict"
     } else {
       predictButtonText = "Sending..."
     }
 
     var helpText = ""
-    if (serverError == true) {
+    if (serverError === true) {
       helpText = "Oops. Looks like something went wrong with the server!"
     } else {
       helpText = 'No predictions. Click "Predict" button on the map to start.'
