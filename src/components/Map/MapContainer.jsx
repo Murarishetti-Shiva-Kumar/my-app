@@ -133,8 +133,7 @@ export class MapContainer extends Component {
 
     this.setState(prev => ({
       fields: {
-        start_location: {lat: 39.0347,
-          lng: -94.5785},
+        start_location: start_location,
         location:{lat: location.lat(), lng: location.lng()}
       },
       rectangle_coords: [
