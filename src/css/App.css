@@ -39,3 +39,10 @@
     transform: rotate(360deg);
   }
 }
+
+.predict-button {
+  position: "absolute";
+  z-Index: 1;
+  margin-Left: "30.5vw";
+  margin-Top: "10px"
+}

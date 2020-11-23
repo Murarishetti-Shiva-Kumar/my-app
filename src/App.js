@@ -1,4 +1,6 @@
-import MapContainer from "./components/Map/Map";
+import MapContainer from "./components/Map/MapContainer";
+import { Router, browserHistory, Link } from 'react-router';
+
 function App() {
   return (
     // <div className="App">
@@ -18,11 +20,10 @@ function App() {
     //   </header>
     // </div>
     <div>
-    {/* <FilePage/> */}
-    
-    <MapContainer/>
+      <div >
+        <MapContainer/>
+      </div>
     </div>
-
 
   );
 }

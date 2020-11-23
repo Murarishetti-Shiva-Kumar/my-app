@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import ImageGallery from 'react-image-gallery';
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from "google-maps-react";
-import '../../App.js';
 import axios from "axios";
 import update from 'immutability-helper';
+
+import "../../css/App.css"
 
 export class MapContainer extends Component {
   constructor(props) {
@@ -188,7 +189,7 @@ export class MapContainer extends Component {
     console.log(formData.get('start_coord'))
 
     axios
-      .post("http://1846d835a7d5.ngrok.io/api/GSV/predict/utility", formData)
+      .post("http://0e70ae32143b.ngrok.io/api/GSV/predict/all", formData)
       .then(function (response) {
         self.setState({
           imageListRaw: response.data,
