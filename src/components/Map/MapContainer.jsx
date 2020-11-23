@@ -39,7 +39,6 @@ export class MapContainer extends Component {
       imageListRaw: [],
       dataLoading: false,
       serverError: false,
-
       category: "utility"
     };
   }
@@ -76,6 +75,7 @@ export class MapContainer extends Component {
         original: 'data:image/jpg;base64,' + imageStr,
         thumbnail: 'data:image/jpg;base64,' + imageStr,
       })
+      return;
     })
 
     this.setState({
@@ -218,7 +218,7 @@ export class MapContainer extends Component {
     else if (selectedValue === 'Road'){
       cat='road'
     }
-    else if (selectedValue === 'All'){
+    else if (selectedValue === 'All Categories'){
       cat ='all'
     }
     this.setState({
