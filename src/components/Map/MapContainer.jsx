@@ -70,12 +70,11 @@ export class MapContainer extends Component {
     const imageListRaw = this.state.imageListRaw;
     var imageList = [];
 
-    imageListRaw.map((imageStr) => {
+    imageListRaw.forEach((imageStr) => {
       imageList.push({
         original: 'data:image/jpg;base64,' + imageStr,
         thumbnail: 'data:image/jpg;base64,' + imageStr,
       })
-      return;
     })
 
     this.setState({
