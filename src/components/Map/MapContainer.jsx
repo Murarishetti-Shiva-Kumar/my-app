@@ -39,8 +39,7 @@ export class MapContainer extends Component {
       imageListRaw: [],
       dataLoading: false,
       serverError: false,
-
-      category: ""
+      category: "utility"
     };
   }
 
@@ -76,6 +75,7 @@ export class MapContainer extends Component {
         original: 'data:image/jpg;base64,' + imageStr,
         thumbnail: 'data:image/jpg;base64,' + imageStr,
       })
+      return;
     })
 
     this.setState({
@@ -190,7 +190,7 @@ export class MapContainer extends Component {
     console.log(formData.get('start_coord'))
 
     axios
-      .post("http://0e70ae32143b.ngrok.io/api/GSV/predict/" + category, formData)
+      .post("http://4d5c6d1ad09b.ngrok.io/api/GSV/predict/" + category, formData)
       .then(function (response) {
         self.setState({
           imageListRaw: response.data,
@@ -218,7 +218,7 @@ export class MapContainer extends Component {
     else if (selectedValue === 'Road'){
       cat='road'
     }
-    else if (selectedValue === 'All'){
+    else if (selectedValue === 'All Categories'){
       cat ='all'
     }
     this.setState({
